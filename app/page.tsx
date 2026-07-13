@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 
-// 🔌 Direct MP3 streaming links that will actually play audio!
+// 🔌 Sample track data array with direct, working streaming links
 const TRACK_LIST = [
   { id: 1, title: "Raw Energy Hook", artist: "Six Raw Music", duration: "6:12", url: "https://soundhelix.com" },
   { id: 2, title: "Industry Lyric Demo", artist: "Six Raw Music", duration: "7:05", url: "https://soundhelix.com" },
@@ -12,7 +12,7 @@ const TRACK_LIST = [
 // 🛒 Marketplace Items Data Pool
 const MARKETPLACE_ITEMS = [
   { id: 1, title: "Street Certified Lyrics", type: "Full Song Lyrics", price: "$149", tags: ["Hip-Hop", "Aggressive", "Storytelling"] },
-  { id: 2, title: "Midnight Melodies Pack", artist: "R&B Hook + Veres", price: "$199", tags: ["R&B", "Smooth", "Radio-Ready"] },
+  { id: 2, title: "Midnight Melodies Pack", type: "R&B Hook + Verses", price: "$199", tags: ["R&B", "Smooth", "Radio-Ready"] },
   { id: 3, title: "Trap Anthem Hook", type: "Chorus & Guide Track", price: "$99", tags: ["Trap", "Catchy", "High Energy"] }
 ];
 
