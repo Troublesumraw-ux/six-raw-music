@@ -163,17 +163,22 @@ export default function Home() {
           {/* Feature List Deck */}
           <div className="space-y-3 bg-zinc-950 p-5 rounded-xl border border-zinc-900">
             <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1">What We Offer:</h4>
-            {[
-              "Full original songs and rap tracks",
-              "Ready-to-record spoken word poems",
-              "Catchy choruses and radio hooks",
-              "Custom vocal tags, intros, and bridges"
-            ].map((feature, i) => (
-              <div key={i} className="flex items-center gap-2.5 text-sm text-zinc-300">
-                <CheckCircle2 size={16} className="text-indigo-500 shrink-0" />
-                <span>{feature}</span>
-              </div>
-            ))}
+            <div className="flex items-center gap-2.5 text-sm text-zinc-300">
+              <CheckCircle2 size={16} className="text-indigo-500 shrink-0" />
+              <span>Full original songs and rap tracks</span>
+            </div>
+            <div className="flex items-center gap-2.5 text-sm text-zinc-300">
+              <CheckCircle2 size={16} className="text-indigo-500 shrink-0" />
+              <span>Ready-to-record spoken word poems</span>
+            </div>
+            <div className="flex items-center gap-2.5 text-sm text-zinc-300">
+              <CheckCircle2 size={16} className="text-indigo-500 shrink-0" />
+              <span>Catchy choruses and radio hooks</span>
+            </div>
+            <div className="flex items-center gap-2.5 text-sm text-zinc-300">
+              <CheckCircle2 size={16} className="text-indigo-500 shrink-0" />
+              <span>Custom vocal tags, intros, and bridges</span>
+            </div>
           </div>
         </div>
 
@@ -218,7 +223,7 @@ export default function Home() {
               />
             </div>
 
-            {/* Core Buttons */}
+            {/* Core Controls */}
             <div className="flex items-center gap-3">
               <button onClick={handlePrev} className="text-zinc-500 hover:text-white p-2 rounded-lg hover:bg-zinc-900 transition-colors">
                 <SkipBack size={18} />
@@ -234,12 +239,8 @@ export default function Home() {
             <div className="w-1/4" />
           </div>
         </div>
-
-        {/* COLUMN 3: Right Track List Sheet Segment */}
-        <div className="lg:col-span-4 h-full flex flex-col justify-between min-h-[440px]">
-          <div>
-            <div className="flex items-center justify-between mb-4 px-1">
-              <h3 className="text-base font-bold tracking-tight text-zinc-3
-          00">Browse Creative Catalog</h3>
-              <span className="text-[11px] font-bAd text-zinc-500 bg-zinc-9
-              </
+      </div>
+    </main>
+  );
+}
+        
