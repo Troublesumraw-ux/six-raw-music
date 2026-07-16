@@ -1,163 +1,234 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Play, Pause, SkipForward, SkipBack, Volume2, VolumeX } from 'lucide-react';
 
-// 🔌 Sample track data array with direct, working streaming links
-const TRACK_LIST = [
-  { id: 1, title: "Raw Energy Hook", artist: "Six Raw Music", duration: "6:12", url: "https://soundhelix.com" },
-  { id: 2, title: "Industry Lyric Demo", artist: "Six Raw Music", duration: "7:05", url: "https://soundhelix.com" },
-  { id: 3, title: "Exclusive Instrumental Pack 1", artist: "Prod. Six Raw", duration: "5:02", url: "https://soundhelix.com" }
-];
+interface Track {
+  id: number;
+  title: string;
+  artist: string;
+  duration: string;
+  url: string;
+}
 
-// 🛒 Marketplace Items Data Pool
-const MARKETPLACE_ITEMS = [
-  { id: 1, title: "Street Certified Lyrics", type: "Full Song Lyrics", price: "$149", tags: ["Hip-Hop", "Aggressive", "Storytelling"] },
-  { id: 2, title: "Midnight Melodies Pack", type: "R&B Hook + Verses", price: "$199", tags: ["R&B", "Smooth", "Radio-Ready"] },
-  { id: 3, title: "Trap Anthem Hook", type: "Chorus & Guide Track", price: "$99", tags: ["Trap", "Catchy", "High Energy"] }
+const TRACK_LIST: Track[] = [
+  {
+    id: 1,
+    title: "Raw Energy Hook",
+    artist: "Six Raw Music",
+    duration: "6:12",
+    url: "https://soundhelix.com" 
+  },
+  {
+    id: 2,
+    title: "Industry Lyric Demo",
+    artist: "Six Raw Music",
+    duration: "4:05",
+    url: "https://soundhelix.com"
+  }
 ];
 
 export default function Home() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState(TRACK_LIST[0]);
-  const [progress, setProgress] = useState(0);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(0);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [duration, setDuration] = useState<number>(0);
+  const [volume, setVolume] = useState<number>(0.8); // 80% volume default
+  const [isMuted, setIsMuted] = useState<boolean>(false);
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const currentTrack = TRACK_LIST[currentTrackIndex];
 
+  // Sync play/pause execution
   useEffect(() => {
     if (!audioRef.current) return;
     if (isPlaying) {
-      audioRef.current.play().catch((err) => {
-        console.log("Playback error or blocked by browser:", err);
-        setIsPlaying(false);
-      });
+      audioRef.current.play().catch(err => console.log("Playback interrupted:", err));
     } else {
       audioRef.current.pause();
     }
-  }, [isPlaying, currentTrack]);
+  }, [isPlaying, currentTrackIndex]);
 
-  const handleTimeUpdate = () => {
-    if (!audioRef.current) return;
-    const current = audioRef.current.currentTime;
-    const duration = audioRef.current.duration || 1;
-    setProgress((current / duration) * 100);
-  };
+  // Sync volume level updates to audio element
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : volume;
+    }
+  }, [volume, isMuted]);
 
-  const handleTrackSelect = (track: typeof TRACK_LIST[0]) => {
-    setCurrentTrack(track);
+  // Reset timeline progress when song changes
+  useEffect(() => {
+    setCurrentTime(0);
+    setDuration(0);
+  }, [currentTrackIndex]);
+
+  const selectTrack = (index: number) => {
+    setCurrentTrackIndex(index);
     setIsPlaying(true);
   };
 
+  const togglePlay = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleNext = () => {
+    const nextIndex = (currentTrackIndex + 1) % TRACK_LIST.length;
+    setCurrentTrackIndex(nextIndex);
+    setIsPlaying(true);
+  };
+
+  const handlePrev = () => {
+    const prevIndex = (currentTrackIndex - 1 + TRACK_LIST.length) % TRACK_LIST.length;
+    setCurrentTrackIndex(prevIndex);
+    setIsPlaying(true);
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTime = parseFloat(e.target.value);
+    if (audioRef.current) {
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+    }
+  };
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+    if (newVolume > 0 && isMuted) {
+      setIsMuted(false);
+    }
+  };
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+  };
+
+  const formatTime = (timeInSeconds: number) => {
+    if (isNaN(timeInSeconds)) return "0:00";
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-hidden font-sans pb-32">
+    <main className="p-8 max-w-2xl mx-auto min-h-screen bg-black text-white">
+      <h1 className="text-3xl font-bold mb-6">Six Raw Music Player</h1>
       
-      <audio ref={audioRef} src={currentTrack.url} onTimeUpdate={handleTimeUpdate} onEnded={() => setIsPlaying(false)} />
+      <audio 
+        ref={audioRef} 
+        src={currentTrack.url} 
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={handleNext}
+      />
 
-      {/* 🎬 HERO SECTION */}
-      <div className="absolute inset-0 z-0 bg-neutral-900">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black z-10" />
-        <div className="w-full h-full flex items-center justify-center text-neutral-800 uppercase tracking-widest text-sm font-bold">
-          [ Video Background Area ]
+      {/* Main Playing Interface Card */}
+      <div className="bg-zinc-900 p-6 rounded-lg mb-8 text-center border border-zinc-800">
+        <h2 className="text-xl font-semibold">{currentTrack.title}</h2>
+        <p className="text-zinc-400 mb-6">{currentTrack.artist}</p>
+        
+        {/* Progress Time Slider */}
+        <div className="mb-6 px-4">
+          <input 
+            type="range"
+            min="0"
+            max={duration || 100}
+            value={currentTime}
+            onChange={handleSeek}
+            className="w-full h-1 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-indigo-500 hover:accent-indigo-400"
+          />
+          <div className="flex justify-between text-xs text-zinc-500 mt-2">
+            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
+          </div>
+        </div>
+
+        {/* Audio Control Panel Elements */}
+        <div className="flex items-center justify-between px-4 mt-4">
+          {/* Volume Deck Widget */}
+          <div className="flex items-center gap-2 w-1/4">
+            <button 
+              onClick={toggleMute}
+              className="text-zinc-400 hover:text-white transition"
+              aria-label="Toggle Mute"
+            >
+              {isMuted || volume === 0 ? <VolumeX size={20} /> : <Volume2 size={20} />}
+            </button>
+            <input 
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={isMuted ? 0 : volume}
+              onChange={handleVolumeChange}
+              className="w-full h-1 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+            />
+          </div>
+
+          {/* Central Track Navigation Core */}
+          <div className="flex items-center gap-4 justify-center flex-1">
+            <button 
+              onClick={handlePrev}
+              className="text-zinc-400 hover:text-white transition p-2"
+              aria-label="Previous Track"
+            >
+              <SkipBack size={22} />
+            </button>
+            
+            <button 
+              onClick={togglePlay}
+              className="bg-indigo-600 hover:bg-indigo-500 text-white p-3 rounded-full transition flex items-center justify-center shadow-lg"
+              aria-label={isPlaying ? 'Pause' : 'Play'}
+            >
+              {isPlaying ? <Pause size={24} fill="white" /> : <Play size={24} fill="white" />}
+            </button>
+
+            <button 
+              onClick={handleNext}
+              className="text-zinc-400 hover:text-white transition p-2"
+              aria-label="Next Track"
+            >
+              <SkipForward size={22} />
+            </button>
+          </div>
+
+          {/* Blank Spacer layout balancing to perfectly center player tools */}
+          <div className="w-1/4 hidden sm:block"></div>
         </div>
       </div>
 
-      <header className="relative z-20 flex items-center justify-between px-6 py-6 max-w-7xl mx-auto">
-        <div className="text-xl font-black tracking-tighter text-red-600 uppercase">Six Raw Music Group</div>
-        <nav className="hidden md:flex space-x-8 text-sm font-medium tracking-wide uppercase text-neutral-400">
-          <a href="#music" className="text-white hover:text-red-500 transition">Music</a>
-          <a href="#marketplace" className="hover:text-white transition">Marketplace</a>
-          <a href="#contact" className="hover:text-white transition font-bold text-red-500">Custom Request</a>
-        </nav>
-      </header>
-
-      <main className="relative z-20 flex flex-col items-center justify-center text-center px-4 pt-16 pb-12 max-w-4xl mx-auto">
-        <span className="text-xs uppercase tracking-[0.3em] text-red-500 font-bold mb-4 animate-pulse">Now Pushing Sound Globally</span>
-        <h1 className="text-4xl md:text-7xl font-black tracking-tight uppercase leading-none mb-6">
-          Raw Talent.<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-amber-500">Uncut Sound.</span>
-        </h1>
-      </main>
-
-      {/* 🎵 AUDIO DISCOVERY TRACK PLAYLIST */}
-      <section id="music" className="relative z-20 max-w-4xl mx-auto px-4 mt-8">
-        <div className="bg-neutral-900/80 border border-neutral-800 p-6 backdrop-blur-md">
-          <h2 className="text-lg font-bold uppercase tracking-wider text-red-500 mb-4">Featured Tracks & Demos</h2>
-          <div className="space-y-2">
-            {TRACK_LIST.map((track) => (
-              <div 
-                key={track.id} 
-                onClick={() => handleTrackSelect(track)} 
-                className={`flex items-center justify-between p-3 cursor-pointer transition ${currentTrack.id === track.id ? 'bg-red-600 text-white' : 'bg-neutral-950/60 hover:bg-neutral-800 text-neutral-300'}`}
-              >
-                <div className="flex items-center space-x-4">
-                  <span className="text-xs font-mono opacity-60">0{track.id}</span>
-                  <div>
-                    <p className="font-bold text-sm tracking-wide">{track.title}</p>
-                    <p className="text-xs opacity-80">{track.artist}</p>
-                  </div>
-                </div>
-                <div className="text-xs font-mono">{track.duration}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 🛒 LYRICS & SONG MARKETPLACE GRID */}
-      <section id="marketplace" className="relative z-20 max-w-4xl mx-auto px-4 mt-12">
-        <div className="border border-neutral-800 bg-neutral-950/40 backdrop-blur-md p-6">
-          <h2 className="text-lg font-bold uppercase tracking-wider text-amber-500 mb-6">Songwriting & Lyrics Marketplace</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {MARKETPLACE_ITEMS.map((item) => (
-              <div key={item.id} className="border border-neutral-800 bg-neutral-900/40 p-4 flex flex-col justify-between hover:border-red-600 transition group">
-                <div>
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-xs text-neutral-500 uppercase tracking-wider font-mono">Pack 0{item.id}</span>
-                    <span className="text-sm font-black text-amber-500">{item.price}</span>
-                  </div>
-                  <h3 className="font-bold text-base uppercase tracking-tight group-hover:text-red-500 transition mb-1">{item.title}</h3>
-                  <p className="text-xs text-neutral-400 mb-4">{item.type}</p>
-                </div>
-                <div>
-                  <div className="flex flex-wrap gap-1 mb-4">
-                    {item.tags.map((tag, idx) => (
-                      <span key={idx} className="text-[10px] bg-neutral-800 px-2 py-0.5 font-medium tracking-wide uppercase text-neutral-400">{tag}</span>
-                    ))}
-                  </div>
-                  <button className="w-full bg-neutral-800 hover:bg-red-600 font-bold uppercase tracking-wider text-[10px] py-2 transition rounded-none">
-                    Purchase License
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 🎛️ FIXED BOTTOM STREAMING CONTROL PANEL DECK */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-neutral-950 border-t border-neutral-800 px-6 py-4 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center space-x-4 w-full md:w-1/4">
-            <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-amber-600 flex items-center justify-center font-bold text-xs uppercase shadow-md">SR</div>
+      <h3 className="text-lg font-medium mb-3 text-zinc-300">Track List</h3>
+      <div className="space-y-2">
+        {TRACK_LIST.map((track, index) => (
+          <div 
+            key={track.id}
+            onClick={() => selectTrack(index)}
+            className={`flex justify-between items-center p-4 rounded-lg cursor-pointer transition ${
+              index === currentTrackIndex 
+                ? 'bg-indigo-950/40 border border-indigo-500 text-white' 
+                : 'bg-zinc-900/50 hover:bg-zinc-800 text-zinc-300'
+            }`}
+          >
             <div>
-              <p className="text-sm font-bold tracking-wide truncate max-w-[200px]">{currentTrack.title}</p>
-              <p className="text-xs text-neutral-400 truncate max-w-[150px]">{currentTrack.artist}</p>
+              <p className="font-medium">{track.title}</p>
+              <p className="text-sm text-zinc-500">{track.artist}</p>
             </div>
+            <span className="text-sm text-zinc-400">{track.duration}</span>
           </div>
-          <div className="flex flex-col items-center w-full md:w-2/4 gap-2">
-            <div className="flex items-center space-x-6">
-              <button onClick={() => setIsPlaying(!isPlaying)} className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center font-black text-sm hover:scale-105 transition active:scale-95 shadow-md" >
-                {isPlaying ? "❚❚" : "▶"}
-              </button>
-            </div>
-            <div className="w-full flex items-center space-x-2 text-xs font-mono text-neutral-500">
-              <div className="w-full h-1 bg-neutral-800 relative rounded-full overflow-hidden">
-                <div className="h-full bg-red-600 transition-all duration-100" style={{ width: `${progress}%` }} />
-              </div>
-            </div>
-          </div>
-          <div className="hidden md:block w-1/4 text-right text-xs text-neutral-500 tracking-widest uppercase font-bold"> Six Raw Stream v1.0 </div>
-        </div>
+        ))}
       </div>
-
-    </div>
+    </main>
   );
 }
