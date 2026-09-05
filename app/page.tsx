@@ -1,246 +1,97 @@
-'use client';
-
-import { useState, useEffect, useRef } from 'react';
-import { Play, Pause, SkipForward, SkipBack, Volume2, VolumeX, Music, CheckCircle2 } from 'lucide-react';
-
-interface Track {
-  id: number;
-  title: string;
-  artist: string;
-  duration: string;
-  url: string;
-}
-
-const TRACK_LIST: Track[] = [
-  {
-    id: 1,
-    title: "Raw Energy Hook",
-    artist: "Six Raw Music",
-    duration: "6:12",
-    url: "https://soundhelix.com" 
-  },
-  {
-    id: 2,
-    title: "Industry Lyric Demo",
-    artist: "Six Raw Music",
-    duration: "4:05",
-    url: "https://soundhelix.com"
-  }
-];
+import React from 'react';
 
 export default function Home() {
-  const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [currentTime, setCurrentTime] = useState<number>(0);
-  const [duration, setDuration] = useState<number>(0);
-  const [volume, setVolume] = useState<number>(0.8);
-  const [isMuted, setIsMuted] = useState<boolean>(false);
-  
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const currentTrack = TRACK_LIST[currentTrackIndex];
-
-  useEffect(() => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.play().catch(err => console.log("Playback interrupted:", err));
-    } else {
-      audioRef.current.pause();
-    }
-  }, [isPlaying, currentTrackIndex]);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0 : volume;
-    }
-  }, [volume, isMuted]);
-
-  useEffect(() => {
-    setCurrentTime(0);
-    setDuration(0);
-  }, [currentTrackIndex]);
-
-  const selectTrack = (index: number) => {
-    setCurrentTrackIndex(index);
-    setIsPlaying(true);
-  };
-
-  const togglePlay = () => {
-    setIsPlaying(!isPlaying);
-  };
-
-  const handleNext = () => {
-    const nextIndex = (currentTrackIndex + 1) % TRACK_LIST.length;
-    setCurrentTrackIndex(nextIndex);
-    setIsPlaying(true);
-  };
-
-  const handlePrev = () => {
-    const prevIndex = (currentTrackIndex - 1 + TRACK_LIST.length) % TRACK_LIST.length;
-    setCurrentTrackIndex(prevIndex);
-    setIsPlaying(true);
-  };
-
-  const handleTimeUpdate = () => {
-    if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
-    }
-  };
-
-  const handleLoadedMetadata = () => {
-    if (audioRef.current) {
-      setDuration(audioRef.current.duration);
-    }
-  };
-
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTime = parseFloat(e.target.value);
-    if (audioRef.current) {
-      audioRef.current.currentTime = newTime;
-      setCurrentTime(newTime);
-    }
-  };
-
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-    if (newVolume > 0 && isMuted) {
-      setIsMuted(false);
-    }
-  };
-
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-  };
-
-  const formatTime = (timeInSeconds: number) => {
-    if (isNaN(timeInSeconds)) return "0:00";
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = Math.floor(timeInSeconds % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
-
   return (
-    <main className="p-6 md:p-12 max-w-7xl mx-auto min-h-screen bg-black text-white flex flex-col justify-between">
-      
-      {/* Top Navbar Section */}
-      <header className="mb-12 border-b border-zinc-900 pb-6 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-black tracking-wider text-white">
-            SIX RAW MUSIC GROUP
+    <main className="min-h-screen bg-stone-50 text-stone-900 font-sans selection:bg-amber-200">
+      {/* Navigation Bar */}
+      <nav className="border-b border-stone-200 bg-white sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <div className="text-2xl font-black tracking-tighter text-stone-950">
+          SIXRAW <span className="text-amber-600">HOME DECOR</span>
+        </div>
+        <div className="flex gap-6 text-sm font-medium tracking-wide uppercase">
+          <a href="#shop" className="hover:text-amber-600 transition">Shop Collection</a>
+          <a href="#manifesto" className="hover:text-amber-600 transition">Our Manifesto</a>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="max-w-6xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
+        <div className="space-y-6">
+          <div className="inline-block bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded">
+            Unboring your space
+          </div>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-stone-950 leading-tight">
+            One-of-a-kind decor for people who refuse to blend in.
           </h1>
+          <p className="text-base md:text-lg text-stone-600 leading-relaxed">
+            Welcome to home decor designed for modern urban living. We bridge the gap between budget-conscious renting and high-end design with original, customizable pieces that maximize your space without sacrificing your style. 
+          </p>
+          <p className="text-base md:text-lg text-stone-600 leading-relaxed">
+            Whether you are looking for a striking colorful ceramic, a custom quote sign that speaks your truth, or a space-saving collapsible wall desk, our minimalist collection is built to make your apartment feel unmistakably yours.
+          </p>
+          <div className="pt-2">
+            <a href="#shop" className="bg-stone-950 text-white font-semibold px-8 py-4 rounded-lg shadow-md hover:bg-stone-800 transition-all inline-block">
+              Shop Minimalist Collection
+            </a>
+          </div>
         </div>
-        <div className="hidden md:flex gap-8 text-sm font-semibold text-zinc-400">
-          <a href="#" className="text-white border-b-2 border-indigo-500 pb-1">Catalog</a>
-          <a href="#" className="hover:text-white transition-colors">Pricing</a>
-          <a href="#" className="hover:text-white transition-colors">Contact</a>
-        </div>
-      </header>
-      
-      <audio 
-        ref={audioRef} 
-        src={currentTrack.url} 
-        onTimeUpdate={handleTimeUpdate}
-        onLoadedMetadata={handleLoadedMetadata}
-        onEnded={handleNext}
-      />
 
-      {/* Modern 3-Column Desktop Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start my-auto">
+        {/* Hero Visual Grid */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="h-64 bg-stone-200 rounded-2xl flex items-center justify-center font-bold text-stone-500 p-4 text-center italic shadow-sm border border-stone-200">
+            [ Striking Ceramics ]
+          </div>
+          <div className="h-64 bg-stone-300 rounded-2xl flex items-center justify-center font-bold text-stone-500 p-4 text-center italic translate-y-6 shadow-sm border border-stone-200">
+            [ Custom Quote Signs ]
+          </div>
+        </div>
+      </section>
+
+      {/* Product Collection Grid */}
+      <section id="shop" className="max-w-6xl mx-auto px-6 py-16 border-t border-stone-200">
+        <div className="mb-10">
+          <h2 className="text-3xl font-extrabold text-stone-950 tracking-tight">The Core Collection</h2>
+          <p className="text-stone-500 mt-2">Customizable essentials built for small spaces.</p>
+        </div>
         
-        {/* COLUMN 1: Value Proposition Copy Section */}
-        <div className="lg:col-span-4 flex flex-col justify-center h-full pr-0 lg:pr-4">
-          <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-4 text-white leading-tight">
-            Your Voice. Your Talent. <br />
-            <span className="text-indigo-500">Our Words.</span>
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="group cursor-pointer">
+            <div className="h-80 bg-stone-200 rounded-xl mb-4 border border-stone-200 flex items-center justify-center text-stone-400 group-hover:opacity-90 transition">
+              [ Product Image ]
+            </div>
+            <h3 className="font-bold text-lg text-stone-950">Colorful Ceramics</h3>
+            <p className="text-sm text-stone-500">Striking finishes, handcrafted shapes</p>
+          </div>
+
+          <div className="group cursor-pointer">
+            <div className="h-80 bg-stone-200 rounded-xl mb-4 border border-stone-200 flex items-center justify-center text-stone-400 group-hover:opacity-90 transition">
+              [ Product Image ]
+            </div>
+            <h3 className="font-bold text-lg text-stone-950">Custom Quote Signs</h3>
+            <p className="text-sm text-stone-500">Tailored typography that speaks your truth</p>
+          </div>
+
+          <div className="group cursor-pointer">
+            <div className="h-80 bg-stone-200 rounded-xl mb-4 border border-stone-200 flex items-center justify-center text-stone-400 group-hover:opacity-90 transition">
+              [ Product Image ]
+            </div>
+            <h3 className="font-bold text-lg text-stone-950">Collapsible Wall Desk</h3>
+            <p className="text-sm text-stone-500">Space-saving minimalist work stations</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Brand Manifesto Callout */}
+      <section id="manifesto" className="bg-stone-950 text-stone-100 py-20 px-6">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">
+            "Your walls shouldn't look like a catalog, and your shelves shouldn't look like everyone else’s."
           </h2>
-          <p className="text-zinc-400 text-sm leading-relaxed mb-4">
-            You have the vocal range, the flow, and the stage presence. You know exactly how to captivate an audience, but finding the right words to say or the perfect melody to carry your talent shouldn't stand in your way. 
+          <p className="text-stone-400 max-w-xl mx-auto text-base">
+            Discover bold textures, original artwork, and unexpected design details that start conversations and redefine your living space.
           </p>
-          <p className="text-zinc-400 text-sm leading-relaxed mb-6">
-            Whether you are hitting creative writer's block or simply prefer to focus on what you do best—performing—we have you covered. Welcome to your ultimate creative catalog. This platform is built specifically for talented singers, rappers, and spoken word artists who are ready to release professional music without the stress of writing from scratch.
-          </p>
-          
-          {/* Feature List Deck */}
-          <div className="space-y-3 bg-zinc-950 p-5 rounded-xl border border-zinc-900">
-            <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1">What We Offer:</h4>
-            <div className="flex items-center gap-2.5 text-sm text-zinc-300">
-              <CheckCircle2 size={16} className="text-indigo-500 shrink-0" />
-              <span>Full original songs and rap tracks</span>
-            </div>
-            <div className="flex items-center gap-2.5 text-sm text-zinc-300">
-              <CheckCircle2 size={16} className="text-indigo-500 shrink-0" />
-              <span>Ready-to-record spoken word poems</span>
-            </div>
-            <div className="flex items-center gap-2.5 text-sm text-zinc-300">
-              <CheckCircle2 size={16} className="text-indigo-500 shrink-0" />
-              <span>Catchy choruses and radio hooks</span>
-            </div>
-            <div className="flex items-center gap-2.5 text-sm text-zinc-300">
-              <CheckCircle2 size={16} className="text-indigo-500 shrink-0" />
-              <span>Custom vocal tags, intros, and bridges</span>
-            </div>
-          </div>
         </div>
-
-        {/* COLUMN 2: Audio Player Deck Interface */}
-        <div className="lg:col-span-4 bg-zinc-900/30 backdrop-blur-xl p-6 md:p-8 rounded-2xl border border-zinc-800/80 flex flex-col justify-between shadow-2xl min-h-[440px]">
-          <div className="w-full aspect-square bg-gradient-to-br from-indigo-950/40 to-zinc-950 rounded-xl mb-6 flex items-center justify-center border border-zinc-800/50 relative overflow-hidden group shadow-inner">
-            <div className="absolute inset-0 bg-indigo-500/5 mix-blend-color-dodge animate-pulse" />
-            <Music size={40} className="text-indigo-500/30 animate-bounce [animation-duration:4s]" />
-          </div>
-
-          <div className="text-center mb-6">
-            <h3 className="text-xl font-bold tracking-tight text-white mb-1 truncate">{currentTrack.title}</h3>
-            <p className="text-indigo-400 text-xs font-semibold uppercase tracking-wider">{currentTrack.artist}</p>
-          </div>
-          
-          {/* Progress Seek Slider */}
-          <div className="mb-6">
-            <input 
-              type="range"
-              min="0"
-              max={duration || 100}
-              value={currentTime}
-              onChange={handleSeek}
-              className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-indigo-500 hover:accent-indigo-400 transition"
-            />
-            <div className="flex justify-between text-[11px] font-medium text-zinc-500 mt-2">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-          </div>
-
-          {/* Player Media Control Hub */}
-          <div className="flex items-center justify-between gap-4 pt-3 border-t border-zinc-900">
-            {/* Volume Mixer Component */}
-            <div className="flex items-center gap-1.5 w-1/4">
-              <button onClick={toggleMute} className="text-zinc-500 hover:text-white transition-colors">
-                {isMuted || volume === 0 ? <VolumeX size={16} /> : <Volume2 size={16} />}
-              </button>
-              <input 
-                type="range" min="0" max="1" step="0.01" value={isMuted ? 0 : volume} onChange={handleVolumeChange}
-                className="w-16 h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
-              />
-            </div>
-
-            {/* Core Controls */}
-            <div className="flex items-center gap-3">
-              <button onClick={handlePrev} className="text-zinc-500 hover:text-white p-2 rounded-lg hover:bg-zinc-900 transition-colors">
-                <SkipBack size={18} />
-              </button>
-              <button onClick={togglePlay} className="bg-indigo-600 hover:bg-indigo-500 text-white p-3.5 rounded-full transition-all duration-300 hover:scale-105 shadow-lg shadow-indigo-600/10">
-                {isPlaying ? <Pause size={18} fill="white" /> : <Play size={18} fill="white" />}
-              </button>
-              <button onClick={handleNext} className="text-zinc-500 hover:text-white p-2 rounded-lg hover:bg-zinc-900 transition-colors">
-                <SkipForward size={18} />
-              </button>
-            </div>
-
-            <div className="w-1/4" />
-          </div>
-        </div>
-      </div>
+      </section>
     </main>
   );
 }
-        
