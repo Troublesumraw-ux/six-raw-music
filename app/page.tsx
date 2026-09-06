@@ -72,47 +72,48 @@ export default function Home() {
         <div className="grid md:grid-cols-3 gap-8">
           {/* Product 1 */}
           <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm group">
-            <div className="h-80 bg-stone-900 rounded-xl mb-4 flex items-center justify-center text-stone-400 font-serif italic">
-              [ Ceramic Display ]
+            <div className="h-80 rounded-xl mb-4 overflow-hidden border border-stone-200 bg-stone-100 flex items-center justify-center">
+              <img src="/Mirror_Gun_Clock.jpeg" className="w-full h-full object-cover rounded-xl" alt="Mirror Gun Clock" />
             </div>
             <div className="flex justify-between items-start">
               <div>
-                <h3 style={{ fontFamily: 'Georgia, serif' }} className="font-bold text-lg text-stone-950">Striking Ceramics</h3>
-                <p className="text-xs text-stone-500 mt-0.5">Vibrant reactive glaze finishes</p>
+                <h3 style={{ fontFamily: 'Georgia, serif' }} className="font-bold text-lg text-stone-950">Mirror Gun Clock</h3>
+                <p className="text-xs text-stone-500 mt-0.5">Bold, conversational wall statement piece</p>
               </div>
-              <span className="font-bold text-stone-950">$48+</span>
+              <span className="font-bold text-stone-950">$85</span>
             </div>
           </div>
 
           {/* Product 2 */}
           <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm group">
-            <div className="h-80 bg-stone-100 rounded-xl mb-4 flex items-center justify-center text-stone-500 p-4 text-center font-serif border border-dashed border-stone-300">
-              "Your Quote Here"
+            <div className="h-80 rounded-xl mb-4 overflow-hidden border border-stone-200 bg-stone-100 flex items-center justify-center">
+              <img src="/Love_Picture_Frame.jpeg" className="w-full h-full object-cover rounded-xl" alt="Love Picture Frame" />
             </div>
             <div className="flex justify-between items-start">
               <div>
-                <h3 style={{ fontFamily: 'Georgia, serif' }} className="font-bold text-lg text-stone-950">Custom Quote Signs</h3>
-                <p className="text-xs text-stone-500 mt-0.5">High-contrast modern typography</p>
+                <h3 style={{ fontFamily: 'Georgia, serif' }} className="font-bold text-lg text-stone-950">Love Picture Frame</h3>
+                <p className="text-xs text-stone-500 mt-0.5">High-contrast accent frame details</p>
               </div>
-              <span className="font-bold text-stone-950">$65</span>
+              <span className="font-bold text-stone-950">$45</span>
             </div>
           </div>
 
           {/* Product 3 */}
           <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm group">
-            <div className="h-80 bg-stone-900 rounded-xl mb-4 flex items-center justify-center text-stone-400 font-serif italic">
-              [ Collapsible Mechanism ]
+            <div className="h-80 rounded-xl mb-4 overflow-hidden border border-stone-200 bg-stone-100 flex items-center justify-center">
+              <img src="/6_Bedside_Table.jpeg" className="w-full h-full object-cover rounded-xl" alt="Bedside Table" />
             </div>
             <div className="flex justify-between items-start">
               <div>
-                <h3 style={{ fontFamily: 'Georgia, serif' }} className="font-bold text-lg text-stone-950">Collapsible Wall Desk</h3>
-                <p className="text-xs text-stone-500 mt-0.5">Premium oak wood minimal finish</p>
+                <h3 style={{ fontFamily: 'Georgia, serif' }} className="font-bold text-lg text-stone-950">Bedside Table</h3>
+                <p className="text-xs text-stone-500 mt-0.5">Space-saving minimalist urban essential</p>
               </div>
-              <span className="font-bold text-stone-950">$189</span>
+              <span className="font-bold text-stone-950">$149</span>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* Manifesto */}
       <section id="manifesto" className="bg-stone-950 text-stone-100 py-24 px-6 relative overflow-hidden">
