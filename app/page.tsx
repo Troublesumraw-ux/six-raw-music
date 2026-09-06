@@ -22,9 +22,12 @@ export default function Home() {
       {/* Hero Section */}
       <section className="max-w-6xl mx-auto px-6 py-16 md:py-28 grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
-          <div className="inline-block bg-stone-950 text-stone-100 text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
-            📍 UNBORING YOUR SPACE
-          </div>
+         <div className="w-full bg-stone-950 text-stone-100 text-xs font-black uppercase tracking-[0.25em] py-3 px-4 rounded-xl flex items-center gap-3 border border-stone-800 shadow-inner">
+  <span className="text-amber-500 text-sm">✦</span>
+  <span>Unboring your space</span>
+  <span className="hidden sm:inline text-stone-500 font-normal">| Manifesto Release No. 01</span>
+</div>
+
           <h1 style={{ fontFamily: 'Georgia, serif' }} className="text-4xl md:text-6xl font-black text-stone-950 leading-tight">
             One-of-a-kind decor for people who refuse to blend in.
           </h1>
