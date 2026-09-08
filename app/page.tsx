@@ -3,12 +3,12 @@ import React from 'react';
 export default function Home() {
   return (
     <main className="min-h-screen bg-stone-950 text-stone-100 font-sans selection:bg-amber-500 selection:text-stone-950">
-      {/* Dynamic Announcement Bar */}
+      {/* Announcement Bar */}
       <div className="bg-amber-600 text-stone-950 px-4 py-2 text-center text-xs font-black tracking-widest uppercase">
         ⚡ DRIFTING OUTSIDE THE CATALOG — ONE-OF-A-KIND RELEASES LIVE NOW
       </div>
 
-      {/* Modern High-Contrast Navigation */}
+      {/* Navigation */}
       <nav className="border-b border-stone-800 bg-stone-900 sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-xl">
         <div style={{ fontFamily: 'Georgia, serif' }} className="text-2xl font-black tracking-tighter text-white">
           SIXRAW <span style={{ fontFamily: 'system-ui, sans-serif' }} className="text-amber-500 text-xl font-normal tracking-normal ml-1">ART & DECOR</span>
@@ -19,10 +19,10 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Premium Hero Section */}
+      {/* Hero Section */}
       <section className="max-w-6xl mx-auto px-6 py-16 md:py-28 grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
-          {/* Manifesto Banner Look */}
+          {/* Manifesto Banner */}
           <div className="w-full bg-stone-900 text-stone-100 text-xs font-black uppercase tracking-[0.25em] py-3 px-4 rounded-xl flex items-center gap-3 border border-stone-800 shadow-inner">
             <span className="text-amber-500 text-sm">✦</span>
             <span>Unboring your space</span>
@@ -35,11 +35,8 @@ export default function Home() {
           <p className="text-base md:text-lg text-stone-400 leading-relaxed font-normal">
             Welcome to custom art designed for modern urban rebellion. We bridge the gap between boring, repetitive layouts and high-end underground design with original, hand-splattered pieces that turn ordinary spaces into custom galleries.
           </p>
-          <p className="text-base md:text-lg text-stone-400 leading-relaxed">
-            Whether you are hunting for custom neon statement pieces, conversation-starting skull ash-holders, or hand-painted furniture layers, our collection is built to make your space feel unmistakably yours.
-          </p>
-          <div className="pt-4 flex flex-wrap gap-4">
-            <a href="#shop" className="bg-amber-500 text-stone-950 font-black tracking-wide uppercase text-xs px-8 py-4 rounded-lg shadow-xl hover:bg-amber-400 transition-all transform hover:-translate-y-0.5">
+          <div className="pt-4">
+            <a href="#shop" className="bg-amber-500 text-stone-950 font-black tracking-wide uppercase text-xs px-8 py-4 rounded-lg shadow-xl hover:bg-amber-400 transition-all inline-block">
               Explore Collection
             </a>
           </div>
@@ -47,19 +44,11 @@ export default function Home() {
 
         {/* Feature Visual Display using your real artwork */}
         <div className="grid grid-cols-2 gap-4 relative">
-          <div className="h-72 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl relative group">
-            <img src="/Mirror_Gun_Clock.jpeg" className="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="Neon Skull Clock" />
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent flex flex-col justify-end p-4">
-              <span className="text-xs uppercase font-bold tracking-widest text-amber-400">Statement Piece</span>
-              <h3 style={{ fontFamily: 'Georgia, serif' }} className="text-lg font-bold text-white mt-0.5">Neon Work</h3>
-            </div>
+          <div className="h-72 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl relative">
+            <img src="/Cusrom_Skull_Clock.jpg" className="w-full h-full object-cover" alt="Neon Skull Clock" />
           </div>
-          <div className="h-72 rounded-2xl overflow-hidden border border-stone-800 translate-y-8 shadow-2xl relative group">
-            <img src="/6_Bedside_Table.jpeg" className="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="Hand Painted Table" />
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent flex flex-col justify-end p-4">
-              <span className="text-xs uppercase font-bold tracking-widest text-amber-400">Hand Splattered</span>
-              <h3 style={{ fontFamily: 'Georgia, serif' }} className="text-lg font-bold text-white mt-0.5">Custom Furniture</h3>
-            </div>
+          <div className="h-72 rounded-2xl overflow-hidden border border-stone-800 translate-y-8 shadow-2xl relative">
+            <img src="/Custom_Love_Pictureframe.jpg" className="w-full h-full object-cover" alt="Love Pictureframe" />
           </div>
         </div>
       </section>
@@ -71,7 +60,7 @@ export default function Home() {
           <p className="text-stone-400 mt-1">Handcrafted underground statement elements designed to turn heads.</p>
         </div>
         
-          <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8">
           {/* Card 1 — Clock */}
           <div className="bg-stone-900 p-4 rounded-2xl border border-stone-800 shadow-xl group">
             <div className="h-80 rounded-xl mb-4 overflow-hidden border border-stone-800 bg-stone-950 flex items-center justify-center">
@@ -114,7 +103,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-
+      </section>
 
       {/* Impact Manifesto Callout Banner */}
       <section id="manifesto" className="bg-gradient-to-br from-stone-900 to-stone-950 text-stone-100 py-24 px-6 border-t border-stone-800 text-center space-y-6">
