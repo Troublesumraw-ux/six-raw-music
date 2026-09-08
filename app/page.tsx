@@ -71,11 +71,11 @@ export default function Home() {
           <p className="text-stone-400 mt-1">Handcrafted underground statement elements designed to turn heads.</p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
           {/* Card 1 — Clock */}
           <div className="bg-stone-900 p-4 rounded-2xl border border-stone-800 shadow-xl group">
             <div className="h-80 rounded-xl mb-4 overflow-hidden border border-stone-800 bg-stone-950 flex items-center justify-center">
-              <img src="/Mirror_Gun_Clock.jpeg" className="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Neon Skull Clock" />
+              <img src="/Cusrom_Skull_Clock.jpg" className="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Neon Skull Clock" />
             </div>
             <div className="flex justify-between items-start">
               <div>
@@ -86,35 +86,35 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Card 2 — Talking Teeth */}
+          {/* Card 2 — Picture Frame */}
           <div className="bg-stone-900 p-4 rounded-2xl border border-stone-800 shadow-xl group">
             <div className="h-80 rounded-xl mb-4 overflow-hidden border border-stone-800 bg-stone-950 flex items-center justify-center">
-              <img src="/Love_Picture_Frame.jpeg" className="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Talking Teeth Sculpture" />
+              <img src="/Custom_Love_Pictureframe.jpg" className="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Love Picture Frame" />
             </div>
             <div className="flex justify-between items-start">
               <div>
-                <h3 style={{ fontFamily: 'Georgia, serif' }} className="font-bold text-lg text-white group-hover:text-amber-400 transition">Chime Mouth Ashtray</h3>
-                <p className="text-xs text-stone-400 mt-0.5">Hand-detailed conversational art</p>
+                <h3 style={{ fontFamily: 'Georgia, serif' }} className="font-bold text-lg text-white group-hover:text-amber-400 transition">Love Accent Frame</h3>
+                <p className="text-xs text-stone-400 mt-0.5">High-contrast layered typography frame</p>
               </div>
               <span className="font-bold text-amber-500 text-lg">$45</span>
             </div>
           </div>
 
-          {/* Card 3 — Painted Stand */}
+          {/* Card 3 — Coaster / Cupholder */}
           <div className="bg-stone-900 p-4 rounded-2xl border border-stone-800 shadow-xl group">
             <div className="h-80 rounded-xl mb-4 overflow-hidden border border-stone-800 bg-stone-950 flex items-center justify-center">
-              <img src="/6_Bedside_Table.jpeg" className="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="SIX RAW Painted Table" />
+              <img src="/Custom_Cupholder.jpg" className="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Custom Cupholder Coasters" />
             </div>
             <div className="flex justify-between items-start">
               <div>
-                <h3 style={{ fontFamily: 'Georgia, serif' }} className="font-bold text-lg text-white group-hover:text-amber-400 transition">"RAW" Splatter Stand</h3>
-                <p className="text-xs text-stone-400 mt-0.5">Multi-tier custom painted accent desk</p>
+                <h3 style={{ fontFamily: 'Georgia, serif' }} className="font-bold text-lg text-white group-hover:text-amber-400 transition">Toxic Resin Coasters</h3>
+                <p className="text-xs text-stone-400 mt-0.5">Hand-poured bold splatter cupholders</p>
               </div>
-              <span className="font-bold text-amber-500 text-lg">$240</span>
+              <span className="font-bold text-amber-500 text-lg">$25</span>
             </div>
           </div>
         </div>
-      </section>
+
 
       {/* Impact Manifesto Callout Banner */}
       <section id="manifesto" className="bg-gradient-to-br from-stone-900 to-stone-950 text-stone-100 py-24 px-6 border-t border-stone-800 text-center space-y-6">
